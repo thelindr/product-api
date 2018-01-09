@@ -23,7 +23,16 @@ mongoose.connection.once("open", () => console.log("Connected to mongodb"))
 
 // This is the beginning of a model for the Product object.
 const Product = mongoose.model("Product", {
+  id: Number,
   name: String,
+  type: String,
+  size: String,
+  numberInPack: Number,
+  substance: String,
+  price: Number,
+  deliveryTime: String,
+  image: String,
+  description: String
   // Add more attributes to your product here.
 })
 
@@ -39,6 +48,12 @@ app.post("/products", (req, res) => {
   product.save()
     .then(() => { res.status(201).send("Product created") })
     .catch(err => { res.status(400).send(err) })
+})
+
+app.get("/products", (req, res) => {
+  Product.find().then(allProducts => {
+    res.json(allProducts)
+  })
 })
 
 // Add more endpoints here!
